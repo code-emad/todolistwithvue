@@ -2,7 +2,6 @@
 import { ref, onMounted, computed, watch } from "vue";
 
 const todos = ref([]);
-const name = ref("");
 const input_content = ref("");
 const input_catergory = ref(null);
 
@@ -12,7 +11,26 @@ const todos_ascending = computed(() =>
   })
 );
 
-const addTodo = () => {};
+const addTodo = () => {
+  if (input_content.value.trim() === "" || input_catergory.value === null) {
+    return;
+  }
+
+  todos.value.push({
+    content: input_content.value,
+    category: input_catergory.value,
+    createdAt: new Date().getTime(),
+    done: false,
+  });
+};
+
+watch(
+  todos,
+  (newVal) => {
+    localStorage.setItem("todos", JSON.stringify(newVal));
+  },
+  { deep: true }
+);
 
 watch(name, (newVal) => {
   localStorage.setItem("name", newVal);
@@ -20,16 +38,12 @@ watch(name, (newVal) => {
 
 onMounted(() => {
   name.value = localStorage.getItem("name") || "";
+  todos.value = JSON.parse(localStorage.getItem("todos")) || [];
 });
 </script>
 
 <template>
   <main class="app">
-    <section class="greeting">
-      <h2 class="title">
-        What's up, <input type="text" placeholder="Name here" v-model="name" />
-      </h2>
-    </section>
     <section class="create-todo">
       <h3>CREATE A TODO</h3>
       <form @submit.prevent="addTodo">
@@ -63,8 +77,23 @@ onMounted(() => {
             <div>Personal</div>
           </label>
         </div>
-        <input type="submit" value="Add to list">
+        <input type="submit" value="Add to list" />
       </form>
+    </section>
+
+    <section class="todo-list">
+      <h3>List</h3>
+      <div class="list"></div>
+
+      <div
+        v-for="todo in todos_asc"
+        :class="`todo-item ${todo.done && 'done'}`"
+      >
+        <label>
+          <input type="checkbox" v-model="todo.done" />
+          <span :class="`bubble ${todo.category}`"></span>
+        </label>
+      </div>
     </section>
   </main>
 </template>
