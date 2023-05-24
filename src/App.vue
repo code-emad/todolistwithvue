@@ -33,6 +33,10 @@ const addTodo = () => {
     createdAt: new Date().getTime(),
     done: false,
   });
+
+  input_content.value = "";
+  input_catergory.value = null;
+
 };
 
 const removeTodo = (todo) => {
