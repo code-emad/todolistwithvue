@@ -46,20 +46,24 @@ onMounted(() => {
               type="radio"
               name="category"
               value="Work"
-              v-model="input_catergory"/>
+              v-model="input_catergory"
+            />
             <span class="bubble business"></span>
             <div>Business</div>
           </label>
+
           <label>
             <input
               type="radio"
               name="category"
               value="Personal"
-              v-model="input_catergory"/>
+              v-model="input_catergory"
+            />
             <span class="bubble personal"></span>
             <div>Personal</div>
           </label>
         </div>
+        <input type="submit" value="Add to list">
       </form>
     </section>
   </main>
