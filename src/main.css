@@ -207,5 +207,5 @@ input:checked ~ .bubble::after {
 
 .todo-item.done .todo-content input {
 	text-decoration: line-through;
-	color: var(--grey);
+	color: black;
 }
